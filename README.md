@@ -1,159 +1,37 @@
-# TOC Project 2020
+# TOC Project 2022
+**By F74097065 陳紅宏**
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/dc7fa47fcd809b99d087/maintainability)](https://codeclimate.com/github/NCKU-CCS/TOC-Project-2020/maintainability)
+## Line Bot Introduction
+**Topic:** mental health
 
-[![Known Vulnerabilities](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020/badge.svg)](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020)
+**Line bot name:** Mochi the Chat Bot
 
+**Description:** Mochi is your personal chat bot for your mental health! Mochi recommends proven activities to combat your mental health struggles.
 
-Template Code for TOC Project 2020
+## User Guide
+1. Say "hi mochi" to start
+2. Select your feeling right now (tired, sad, worried, angry, or stressed)
+![image](https://user-images.githubusercontent.com/47027575/209335199-e74aea2d-32d4-4400-baac-af586e083ec3.png)
 
-A Line bot based on a finite state machine
+3. Mochi will recommend two activities, choose an activity that you want to do
 
-More details in the [Slides](https://hackmd.io/@TTW/ToC-2019-Project#) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
+![image](https://user-images.githubusercontent.com/47027575/209335251-fff8e48c-0d14-480d-b3b4-3e2ac9210554.png)
 
-## Setup
-
-### Prerequisite
-* Python 3.6
-* Pipenv
-* Facebook Page and App
-* HTTPS Server
-
-#### Install Dependency
-```sh
-pip3 install pipenv
-
-pipenv --three
-
-pipenv install
-
-pipenv shell
-```
-
-* pygraphviz (For visualizing Finite State Machine)
-    * [Setup pygraphviz on Ubuntu](http://www.jianshu.com/p/a3da7ecc5303)
-	* [Note: macOS Install error](https://github.com/pygraphviz/pygraphviz/issues/100)
+4. Mochi guide you through the activity
+5. Afterwards Mochi will ask you if you want to do another activity if the activity doesn't help:
+	- If you reply yes, Mochi will explain the other activity
+	- If you reply no, Mochi will end the chat, to restart say "hi mochi" again 
+![image](https://user-images.githubusercontent.com/47027575/209335295-380dffd7-c44c-488e-a8f7-08cba78bfd95.png)
 
 
-#### Secret Data
-You should generate a `.env` file to set Environment Variables refer to our `.env.sample`.
-`LINE_CHANNEL_SECRET` and `LINE_CHANNEL_ACCESS_TOKEN` **MUST** be set to proper values.
-Otherwise, you might not be able to run your code.
+## Environment
+- Python: 3.7
+- Graphviz: 7.0.4
+- Pygraphviz: 1.5
+- Flask: 1.0.2
+- Line-bot-sdk: 1.14.0
+- python-dotenv
 
-#### Run Locally
-You can either setup https server or using `ngrok` as a proxy.
+## FSM
+<img width="959" alt="image" src="https://user-images.githubusercontent.com/47027575/209333820-2390b728-a5a2-4b35-93b1-98b50b6a44ad.png">
 
-#### a. Ngrok installation
-* [ macOS, Windows, Linux](https://ngrok.com/download)
-
-or you can use Homebrew (MAC)
-```sh
-brew cask install ngrok
-```
-
-**`ngrok` would be used in the following instruction**
-
-```sh
-ngrok http 8000
-```
-
-After that, `ngrok` would generate a https URL.
-
-#### Run the sever
-
-```sh
-python3 app.py
-```
-
-#### b. Servo
-
-Or You can use [servo](http://serveo.net/) to expose local servers to the internet.
-
-
-## Finite State Machine
-![fsm](./img/show-fsm.png)
-
-## Usage
-The initial state is set to `user`.
-
-Every time `user` state is triggered to `advance` to another state, it will `go_back` to `user` state after the bot replies corresponding message.
-
-* user
-	* Input: "go to state1"
-		* Reply: "I'm entering state1"
-
-	* Input: "go to state2"
-		* Reply: "I'm entering state2"
-
-## Deploy
-Setting to deploy webhooks on Heroku.
-
-### Heroku CLI installation
-
-* [macOS, Windows](https://devcenter.heroku.com/articles/heroku-cli)
-
-or you can use Homebrew (MAC)
-```sh
-brew tap heroku/brew && brew install heroku
-```
-
-or you can use Snap (Ubuntu 16+)
-```sh
-sudo snap install --classic heroku
-```
-
-### Connect to Heroku
-
-1. Register Heroku: https://signup.heroku.com
-
-2. Create Heroku project from website
-
-3. CLI Login
-
-	`heroku login`
-
-### Upload project to Heroku
-
-1. Add local project to Heroku project
-
-	heroku git:remote -a {HEROKU_APP_NAME}
-
-2. Upload project
-
-	```
-	git add .
-	git commit -m "Add code"
-	git push -f heroku master
-	```
-
-3. Set Environment - Line Messaging API Secret Keys
-
-	```
-	heroku config:set LINE_CHANNEL_SECRET=your_line_channel_secret
-	heroku config:set LINE_CHANNEL_ACCESS_TOKEN=your_line_channel_access_token
-	```
-
-4. Your Project is now running on Heroku!
-
-	url: `{HEROKU_APP_NAME}.herokuapp.com/callback`
-
-	debug command: `heroku logs --tail --app {HEROKU_APP_NAME}`
-
-5. If fail with `pygraphviz` install errors
-
-	run commands below can solve the problems
-	```
-	heroku buildpacks:set heroku/python
-	heroku buildpacks:add --index 1 heroku-community/apt
-	```
-
-	refference: https://hackmd.io/@ccw/B1Xw7E8kN?type=view#Q2-如何在-Heroku-使用-pygraphviz
-
-## Reference
-[Pipenv](https://medium.com/@chihsuan/pipenv-更簡單-更快速的-python-套件管理工具-135a47e504f4) ❤️ [@chihsuan](https://github.com/chihsuan)
-
-[TOC-Project-2019](https://github.com/winonecheng/TOC-Project-2019) ❤️ [@winonecheng](https://github.com/winonecheng)
-
-Flask Architecture ❤️ [@Sirius207](https://github.com/Sirius207)
-
-[Line line-bot-sdk-python](https://github.com/line/line-bot-sdk-python/tree/master/examples/flask-echo)
